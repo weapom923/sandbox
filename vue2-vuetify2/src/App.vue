@@ -32,6 +32,8 @@ export default defineComponent({
         '/throw-errors',
         '/theme',
         '/cyclic-tree',
+        '/class-component-basic',
+        '/modal',
       ],
     };
   },

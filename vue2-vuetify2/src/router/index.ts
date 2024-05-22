@@ -39,6 +39,14 @@ const router = new VueRouter({
           path: 'cyclic-tree',
           component: () => import('@/pages/CyclicTree.vue'),
         },
+        {
+          path: 'class-component-basic',
+          component: () => import('@/pages/ClassComponentBasic.vue'),
+        },
+        {
+          path: 'modal',
+          component: () => import('@/pages/Modal.vue'),
+        },
       ]
     },
   ],
