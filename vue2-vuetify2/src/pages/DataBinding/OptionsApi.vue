@@ -1,9 +1,10 @@
 <template>
   <v-form>
     <h1>Options API</h1>
-    <v-btn v-on:click="$emit('update:val', 'XYZ')">update value</v-btn>
-    <v-btn v-on:click="$emit('update:arr', [ 'X', 'Y', 'Z' ])">update array</v-btn>
-    <v-btn v-on:click="$emit('update:obj', { a: 'X', b: 'Y', c: 'Z' })">update obj</v-btn>
+    <v-btn v-on:click="$_val = 'XYZ'">update value</v-btn>
+    <v-btn v-on:click="$_arr = [ 'X', 'Y', 'Z' ]">update array</v-btn>
+    <v-btn v-on:click="$_obj = { a: 'X', b: 'Y', c: 'Z' }">update obj</v-btn>
+    <v-text-field v-model="$_val"></v-text-field>
   </v-form>
 </template>
 
@@ -23,6 +24,21 @@ export default defineComponent({
     obj: {
       type: Object as PropType<Record<string, string>>,
       required: true,
+    },
+  },
+
+  computed: {
+    $_val: {
+      get() { return this.val },
+      set(val: string) { this.$emit('update:val', val) },
+    },
+    $_arr: {
+      get() { return this.arr },
+      set(arr: string[]) { this.$emit('update:arr', arr) },
+    },
+    $_obj: {
+      get() { return this.obj },
+      set(obj: Record<string, string>) { this.$emit('update:obj', obj) },
     },
   }
 });
