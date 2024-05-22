@@ -35,6 +35,10 @@ const router = new VueRouter({
           path: 'throw-errors',
           component: () => import('@/pages/ThrowErrors.vue'),
         },
+        {
+          path: 'cyclic-tree',
+          component: () => import('@/pages/CyclicTree.vue'),
+        },
       ]
     },
   ],

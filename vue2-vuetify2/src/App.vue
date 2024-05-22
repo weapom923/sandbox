@@ -4,6 +4,7 @@
       <v-container>
         <v-row>
           <v-select
+            v-bind:value="$route.path"
             v-bind:items="urls"
             v-on:input="$router.push($event)"
           >
@@ -30,6 +31,7 @@ export default defineComponent({
         '/wrapper-component',
         '/throw-errors',
         '/theme',
+        '/cyclic-tree',
       ],
     };
   },
