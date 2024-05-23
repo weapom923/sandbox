@@ -3,8 +3,9 @@
     ref="modalWindow"
     absolute
     origin="center center"
-    v-model="$data.$_modalOpen"
     transition="scale-transition"
+    v-model="$data.$_modalOpen"
+    v-bind="menuProps"
     v-bind:close-on-content-click="false"
     v-bind:position-x="$_modalPositionX"
     v-bind:position-y="$_modalPositionY"
@@ -37,8 +38,8 @@
 </template>
 
 <script lang="ts">
-import { VCard } from "vuetify/lib";
-import { defineComponent } from "vue";
+import { VMenu, VCard } from "vuetify/lib/components";
+import { defineComponent, PropType } from "vue";
 import TestModalCard from "@/components/TestModalCard.vue";
 import SimpleModalCard from "@/components/SimpleModalCard.vue";
 import DataEditorModalCard from "@/components/DataEditorModalCard.vue";
@@ -52,6 +53,7 @@ export default defineComponent({
 
   props: {
     componentName: { type: String, required: true },
+    menuProps: { type: Object as PropType<InstanceType<VMenu>['$props']> },
   },
 
   data(): {
@@ -103,31 +105,55 @@ export default defineComponent({
   },
 
   watch: {
-    componentName() {
-      this.$_resetMouseContext();
+    '$data.$_modalOpen'(modalOpen: boolean) {
+      if (modalOpen) {
+        this.$_initialize();
+      } else {
+        this.$_resetMouseContext();
+      }
     },
 
-    '$data.$_modalOpen'(modalOpen: boolean) {
-      if (!modalOpen) {
-        this.$_resetMouseContext();
+    async '$data.$_modalElement'(modalElement: HTMLDivElement) {
+      if (modalElement) {
+        await this.$_initialize();
       }
     },
   },
 
   mounted() {
     window.addEventListener('mousemove', this.$_onMousemove);
+    window.addEventListener('mouseup', this.$_onMouseup);
+  },
 
+  beforeDestroy() {
+    window.removeEventListener('mouseup', this.$_onMouseup);
+    window.removeEventListener('mousemove', this.$_onMousemove);
   },
 
   methods: {
+    async $_initialize() {
+      this.$data.$_modalOriginX = this.$root.$el.clientWidth / 2;
+      this.$data.$_modalOriginY = this.$root.$el.clientHeight / 2;
+      if (this.$data.$_modalElement) {
+        const modalElement = this.$data.$_modalElement;
+        while (true) {
+          if ((modalElement.clientWidth > 0) && (modalElement.clientHeight > 0)) break;
+          await new Promise(resolve => setTimeout(resolve, 10));
+        }
+        this.$data.$_modalOriginX -= modalElement.clientWidth / 2;
+        this.$data.$_modalOriginY -= modalElement.clientHeight / 2;
+      }
+    },
+
     $_resetMouseContext() {
       this.$data.$_clientYOnMousedown = undefined;
       this.$data.$_clientXOnMousedown = undefined;
       this.$data.$_clientYOnMousemove = undefined;
       this.$data.$_clientXOnMousemove = undefined;
       if (this.$data.$_modalElement) {
-        this.$data.$_modalOriginX = this.$data.$_modalElement.parentNode.offsetLeft;
-        this.$data.$_modalOriginY = this.$data.$_modalElement.parentNode.offsetTop;
+        const modalElement = this.$data.$_modalElement;
+        this.$data.$_modalOriginX = modalElement.parentNode.offsetLeft;
+        this.$data.$_modalOriginY = modalElement.parentNode.offsetTop;
       }
     },
 
@@ -136,15 +162,7 @@ export default defineComponent({
     },
 
     async $_registerModalCard(modalCard: InstanceType<VCard>) {
-      this.$data.$_modalElement = modalCard.$el as HTMLDivElement
-      this.$data.$_modalOriginX = this.$root.$el.clientWidth / 2;
-      this.$data.$_modalOriginY = this.$root.$el.clientHeight / 2;
-      while (true) {
-        if ((this.$data.$_modalElement.clientWidth > 0) && (this.$data.$_modalElement.clientHeight > 0)) break;
-        await new Promise(resolve => setTimeout(resolve, 10));
-      }
-      this.$data.$_modalOriginX -= this.$data.$_modalElement.clientWidth / 2;
-      this.$data.$_modalOriginY -= this.$data.$_modalElement.clientHeight / 2;
+      this.$data.$_modalElement = modalCard.$el as HTMLDivElement;
     },
 
     $_onMousedown(event: MouseEvent) {

@@ -98,6 +98,9 @@ export default defineComponent({
         dataEditorModalCard: {
           data: this.$data.$_data,
           okCallback: (data: Data) => { this.$data.$_data = data },
+          menuProps: {
+            closeOnClick: false,
+          },
         },
       };
     },
