@@ -10,26 +10,23 @@
       <v-text-field
         label="num"
         type="number"
-        v-bind:rules="rules.num"
         v-model.number="$data.$_tempData.num"
+        v-bind:rules="rules.num"
       >
       </v-text-field>
       <v-text-field
         label="str"
-        v-bind:rules="rules.str"
         v-model="$data.$_tempData.str"
+        v-bind:rules="rules.str"
       >
       </v-text-field>
       <v-switch
         label="flag"
-        v-bind:rules="rules.flag"
         v-model="$data.$_tempData.flag"
+        v-bind:rules="rules.flag"
       >
       </v-switch>
-      <v-date-picker
-        v-model="$_timeString"
-      >
-      </v-date-picker>
+      <v-date-picker v-model="$_timeString"></v-date-picker>
     </v-form>
   </modal-card-base>
 </template>
