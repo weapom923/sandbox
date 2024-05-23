@@ -1,65 +1,126 @@
 <template>
-  <v-dialog v-model="$data.$_modalOpen">
-    <template v-slot:activator="{ on, attrs }">
-      <div>
-        <v-btn
-          v-bind="attrs"
-          v-on="on"
-          v-on:click="$data.$_modalName = 'testModalCard'"
+  <div>
+    <v-row v-if="$data.$_data">
+      <v-col cols="3">
+        <v-text-field
+          label="num"
+          readonly
+          type="number"
+          v-bind:value="$data.$_data.num"
         >
-          Test Modal
-        </v-btn>
+        </v-text-field>
+      </v-col>
 
-        <v-btn
-          v-bind="attrs"
-          v-on="on"
-          v-on:click="$data.$_modalName = 'simpleModalCard'"
+      <v-col cols="3">
+        <v-text-field
+          label="str"
+          readonly
+          v-bind:value="$data.$_data.str"
         >
-          Simple Modal
-        </v-btn>
-      </div>
-    </template>
+        </v-text-field>
+      </v-col>
 
-    <component
-      v-bind:key="$data.$_modalName"
-      v-bind:is="$data.$_modalName"
-      v-bind="props[$data.$_modalName]"
-      v-on:ok="closeModal"
-      v-on:cancel="closeModal"
-    ></component>
-  </v-dialog>
+      <v-col cols="3">
+        <v-switch
+          label="flag"
+          readonly
+          v-bind:value="$data.$_data.flag"
+        >
+        </v-switch>
+      </v-col>
+
+      <v-col cols="3">
+        <v-date-picker
+          readonly
+          v-bind:value="$_timeString"
+        >
+        </v-date-picker>
+      </v-col>
+    </v-row>
+
+    <v-dialog v-model="$data.$_modalOpen">
+      <template v-slot:activator="{ on, attrs }">
+        <v-row>
+          <v-btn
+            v-bind="attrs"
+            v-on="on"
+            v-on:click="$data.$_modalName = 'testModalCard'"
+          >
+            Test Modal
+          </v-btn>
+
+          <v-btn
+            v-bind="attrs"
+            v-on="on"
+            v-on:click="$data.$_modalName = 'simpleModalCard'"
+          >
+            Simple Modal
+          </v-btn>
+
+          <v-btn
+            v-bind="attrs"
+            v-on="on"
+            v-on:click="$data.$_modalName = 'dataEditorModalCard'"
+          >
+            Data Editor Modal
+          </v-btn>
+        </v-row>
+      </template>
+
+      <component
+        v-bind:key="$data.$_modalName"
+        v-bind:is="$data.$_modalName"
+        v-bind="$_props[$data.$_modalName]"
+        v-on:ok="closeModal"
+        v-on:cancel="closeModal"
+      ></component>
+    </v-dialog>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import TestModalCard from "@/components/TestModalCard.vue";
 import SimpleModalCard from "@/components/SimpleModalCard.vue";
+import DataEditorModalCard, { Data } from "@/components/DataEditorModalCard.vue";
 
 export default defineComponent({
   components: {
     TestModalCard,
     SimpleModalCard,
+    DataEditorModalCard,
   },
 
   computed: {
-    props(): {
+    $_props(): {
       testModalCard: InstanceType<typeof TestModalCard>['$props'],
       simpleModalCard: InstanceType<typeof SimpleModalCard>['$props'],
+      dataEditorModalCard: InstanceType<typeof DataEditorModalCard>['$props'],
     } {
       return {
         testModalCard: {},
         simpleModalCard: { text: 'Simple Modal Card' },
+        dataEditorModalCard: {
+          data: this.$data.$_data,
+          okCallback: (data: Data) => { this.$data.$_data = data },
+        },
       };
-    }
+    },
+
+    $_timeString(): string {
+      return this.$data.$_data.time.toISOString().slice(0, 10);
+    },
   },
 
   data(): {
     $_modalName: 'testModalCard',
     $_modalOpen: boolean,
+    $_data?: Data,
   } {
     return {
       $_modalName: 'testModal',
       $_modalOpen: false,
+      $_data: undefined,
     };
   },
 

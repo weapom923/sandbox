@@ -25,9 +25,13 @@
           v-if="action.id === 'ok'"
           name="action.ok"
           v-bind:label="$_okLabel"
+          v-bind:disabled="action.disabled"
           v-bind:callback="$_getCallback(action.id, action.callback)"
         >
-          <v-btn v-on:click="$_getCallback(action.id, action.callback)()">
+          <v-btn
+            v-bind:disabled="action.disabled"
+            v-on:click="$_getCallback(action.id, action.callback)()"
+          >
             <v-icon v-if="action.prependIcon">{{ action.prependIcon }}</v-icon>
             {{ $_okLabel }}
             <v-icon v-if="action.appendIcon">{{ action.appendIcon }}</v-icon>
@@ -38,9 +42,13 @@
           v-else-if="action.id === 'cancel'"
           name="action.cancel"
           v-bind:label="$_cancelLabel"
+          v-bind:disabled="action.disabled"
           v-bind:callback="$_getCallback(action.id, action.callback)"
         >
-          <v-btn v-on:click="$_getCallback(action.id, action.callback)()">
+          <v-btn
+            v-bind:disabled="action.disabled"
+            v-on:click="$_getCallback(action.id, action.callback)()"
+          >
             <v-icon v-if="action.prependIcon">{{ action.prependIcon }}</v-icon>
             {{ $_cancelLabel }}
             <v-icon v-if="action.appendIcon">{{ action.appendIcon }}</v-icon>
@@ -53,7 +61,10 @@
           v-bind:label="action.label"
           v-bind:callback="$_getCallback(action.id, action.callback)"
         >
-          <v-btn v-on:click="$_getCallback(action.id, action.callback)()">
+          <v-btn
+            v-bind:disabled="action.disabled"
+            v-on:click="$_getCallback(action.id, action.callback)()"
+          >
             <v-icon v-if="action.prependIcon">{{ action.prependIcon }}</v-icon>
             {{ action.label }}
             <v-icon v-if="action.appendIcon">{{ action.appendIcon }}</v-icon>
@@ -72,6 +83,7 @@ export type CardAction = {
   prependIcon?: string;
   appendIcon?: string;
   callback?: (data?: any) => void;
+  disabled?: boolean;
 };
 
 export default defineComponent({
