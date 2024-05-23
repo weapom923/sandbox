@@ -2,80 +2,57 @@
   <v-card>
     <v-card-title>{{ title }}</v-card-title>
     <v-card-text>
-      <v-form
-        ref="form"
-        v-model="$data.$_formValid"
-      >
-        <v-text-field
-          type="number"
-          v-model.number="$_value"
-          v-bind:rules="$_rules.value"
-        ></v-text-field>
+      <div ref="ref">Height of this box: {{ $data.$_height }}</div>
 
-        <v-text-field
-          v-model="$data.$_reactiveText"
-          v-bind:rules="$_rules.reactiveText"
-        ></v-text-field>
-      </v-form>
+      <v-text-field
+        label="modelValue"
+        type="number"
+        v-model.number="modelValue"
+      ></v-text-field>
+      <div>modelValue: {{ modelValue }}</div>
+
+      <v-text-field
+        label="propValue"
+        type="number"
+        v-model.number="$_propValue"
+      ></v-text-field>
+      <div>propValue: {{ $_propValue }}</div>
+
+      <v-text-field
+        label="dataValue"
+        type="number"
+        v-model="$data.$_dataValue"
+      ></v-text-field>
+      <div>dataValue: {{ $data.$_dataValue }}</div>
     </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn>cancel</v-btn>
-      <v-btn
-        color="primary"
-        v-bind:disabled="!$data.$_formValid"
-        v-on:click="ok"
-      >OK</v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 
 <script lang="ts">
-import { Component, Prop, PropSync, Emit, Vue } from "vue-property-decorator";
-
-export type Result = {
-  reactiveText: string,
-  value: number,
-};
+import {Component, Prop, PropSync, Vue, VModel, Ref} from "vue-property-decorator";
 
 @Component({
   data(): {
-    $_reactiveText: string,
-    $_formValid: boolean,
+    $_dataValue: number,
+    $_height?: number,
   } {
     return {
-      $_reactiveText: "",
-      $_formValid: true,
+      $_dataValue: 1,
+      $_height: undefined,
     };
   },
 })
 export default class SubClassComponent extends Vue {
-  @Prop({ required: true }) title!: string;
+  @Prop({ required: true }) readonly title!: string;
 
-  @PropSync("value", { required: true }) $_value!: number;
+  @PropSync('propValue', { required: true }) $_propValue!: number;
 
-  get $_rules(): Record<string, unknown> {
-    return {
-      value: [
-        (x: number) => x > 5 || "value must be greater than 5",
-      ],
-      reactiveText: [
-        (x: string) => x.length > 5 || "text must be longer than 5 characters",
-        (x: string) => x.length < 10 || "text must be less than 10 characters",
-      ],
-    };
-  }
+  @VModel({ required: true }) modelValue!: number;
 
-  mounted(): void {
-    this.$refs.form.validate();
-  }
+  @Ref() readonly ref!: HTMLDivElement;
 
-  @Emit()
-  ok(): Result {
-    return {
-      reactiveText: this.$data.$_reactiveText,
-      value: this.$_value,
-    };
+  mounted() {
+    this.$data.$_height = this.ref.clientHeight;
   }
 }
 </script>

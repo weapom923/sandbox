@@ -1,38 +1,33 @@
 <template>
   <div>
     <sub-class-component
-      title="hoge"
-      v-bind:value.sync="$data.$_value"
-      v-on:ok="onOk"
+      title="Title from props"
+      v-model="$data.$_modelValue"
+      v-bind:propValue.sync="$data.$_propValue"
     >
     </sub-class-component>
-    <div>value: {{ $data.$_value }}</div>
-    <div v-if="$data.$_result">result: {{ $data.$_result }}</div>
-
+    <div>modelValue: {{ $data.$_modelValue }}</div>
+    <div>propValue: {{ $data.$_propValue }}</div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import SubClassComponent, { Result } from "@/components/SubClassComponent.vue";
+import SubClassComponent from "@/components/SubClassComponent.vue";
 
 @Component({
   components: {
     SubClassComponent,
   },
   data(): {
-    $_value: number,
-    $_result?: Result,
+    $_propValue: number,
+    $_modelValue: number,
   } {
     return {
-      $_value: 1,
-      $_result: undefined,
+      $_propValue: 1,
+      $_modelValue: 1,
     };
   },
 })
-export default class ClassComponentBasic extends Vue {
-  onOk(result: Result): void {
-    this.$data.$_result = result;
-  }
-}
+export default class ClassComponentBasic extends Vue {}
 </script>
