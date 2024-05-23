@@ -38,7 +38,11 @@
       </v-col>
     </v-row>
 
-    <v-dialog v-model="$data.$_modalOpen">
+    <modal-window
+      v-bind:component-name="$data.$_modalName"
+      v-bind="$_props[$data.$_modalName]"
+      v-on:test="$_onTest"
+    >
       <template v-slot:activator="{ on, attrs }">
         <v-row>
           <v-btn
@@ -66,30 +70,20 @@
           </v-btn>
         </v-row>
       </template>
-
-      <component
-        v-bind:key="$data.$_modalName"
-        v-bind:is="$data.$_modalName"
-        v-bind="$_props[$data.$_modalName]"
-        v-on:ok="$_closeModal"
-        v-on:cancel="$_closeModal"
-        v-on:test="$_onTest"
-      ></component>
-    </v-dialog>
+    </modal-window>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import ModalWindow from "@/components/ModalWindow.vue";
 import TestModalCard from "@/components/TestModalCard.vue";
 import SimpleModalCard from "@/components/SimpleModalCard.vue";
 import DataEditorModalCard, { Data } from "@/components/DataEditorModalCard.vue";
 
 export default defineComponent({
   components: {
-    TestModalCard,
-    SimpleModalCard,
-    DataEditorModalCard,
+    ModalWindow,
   },
 
   computed: {
@@ -115,22 +109,15 @@ export default defineComponent({
 
   data(): {
     $_modalName: 'testModalCard',
-    $_modalOpen: boolean,
     $_data?: Data,
   } {
     return {
       $_modalName: 'testModal',
-      $_modalOpen: false,
       $_data: undefined,
     };
   },
 
   methods: {
-    $_closeModal() {
-      this.$data.$_modalOpen = false;
-      console.log('closeModal');
-    },
-
     $_onTest() {
       console.log('onTest');
     },

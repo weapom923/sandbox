@@ -1,5 +1,8 @@
 <template>
-  <v-card>
+  <v-card
+    v-bind="$attrs"
+    v-on="$listeners"
+  >
     <slot
       name="title"
       v-if="title"
@@ -8,13 +11,17 @@
       <v-card-title>{{ title }}</v-card-title>
     </slot>
 
-    <slot
+    <div
       v-if="'content' in $scopedSlots"
-      name="content"
+      v-on:mousedown.stop
     >
-    </slot>
+      <slot name="content"></slot>
+    </div>
 
-    <v-card-text v-else>
+    <v-card-text
+      v-else
+      v-on:mousedown.stop
+    >
       <slot name="default"></slot>
     </v-card-text>
 
@@ -29,8 +36,10 @@
           v-bind:callback="$_getCallback(action.id, action.callback)"
         >
           <v-btn
+            color="primary"
             v-bind:disabled="action.disabled"
             v-on:click="$_getCallback(action.id, action.callback)()"
+            v-on:mousedown.stop
           >
             <v-icon v-if="action.prependIcon">{{ action.prependIcon }}</v-icon>
             {{ $_okLabel }}
@@ -48,6 +57,7 @@
           <v-btn
             v-bind:disabled="action.disabled"
             v-on:click="$_getCallback(action.id, action.callback)()"
+            v-on:mousedown.stop
           >
             <v-icon v-if="action.prependIcon">{{ action.prependIcon }}</v-icon>
             {{ $_cancelLabel }}
@@ -64,6 +74,7 @@
           <v-btn
             v-bind:disabled="action.disabled"
             v-on:click="$_getCallback(action.id, action.callback)()"
+            v-on:mousedown.stop
           >
             <v-icon v-if="action.prependIcon">{{ action.prependIcon }}</v-icon>
             {{ action.label }}
@@ -74,6 +85,14 @@
     </v-card-actions>
   </v-card>
 </template>
+
+<style scoped>
+:deep(.v-card__title),
+:deep(.v-card__actions) {
+  user-select: none;
+}
+</style>
+
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 
@@ -96,6 +115,14 @@ export default defineComponent({
   computed: {
     $_okLabel(): string { return 'OK' },
     $_cancelLabel(): string { return 'Cancel' },
+  },
+
+  mounted() {
+    this.$emit('mounted', this);
+  },
+
+  beforeDestroy() {
+    this.$emit('beforeDestroy', this);
   },
 
   methods: {
