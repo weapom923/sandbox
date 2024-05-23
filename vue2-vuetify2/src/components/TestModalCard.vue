@@ -1,8 +1,7 @@
 <template>
   <modal-card-base
     title="Test Modal"
-    v-bind:data="$data.$_testData"
-    v-bind:actions="actions"
+    v-bind:actions="$_actions"
     v-bind="$attrs"
     v-on="$listeners"
   >
@@ -47,15 +46,13 @@ export default defineComponent({
     ModalCardBase,
   },
 
-  setup(): {
-    actions: CardAction[]
-  } {
-    return {
-      actions: [
+  computed: {
+    $_actions(): CardAction[] {
+      return [
         {
           id: "test",
           label: "Test",
-          callback: (data: TestData) => { console.log("Test", data) },
+          callback: () => { console.log("Test", this.$data.$_testData) },
         },
         {
           id: "cancel",
@@ -63,9 +60,9 @@ export default defineComponent({
         },
         {
           id: "ok",
-          callback: (data: TestData) => { console.log("OK", data) },
+          callback: () => { console.log("OK", this.$data.$_testData) },
         },
-      ]
+      ];
     }
   },
 

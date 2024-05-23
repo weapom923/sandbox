@@ -71,8 +71,9 @@
         v-bind:key="$data.$_modalName"
         v-bind:is="$data.$_modalName"
         v-bind="$_props[$data.$_modalName]"
-        v-on:ok="closeModal"
-        v-on:cancel="closeModal"
+        v-on:ok="$_closeModal"
+        v-on:cancel="$_closeModal"
+        v-on:test="$_onTest"
       ></component>
     </v-dialog>
   </div>
@@ -125,9 +126,13 @@ export default defineComponent({
   },
 
   methods: {
-    closeModal() {
+    $_closeModal() {
       this.$data.$_modalOpen = false;
       console.log('closeModal');
+    },
+
+    $_onTest() {
+      console.log('onTest');
     },
   },
 });

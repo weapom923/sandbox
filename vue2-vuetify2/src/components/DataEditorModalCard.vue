@@ -2,7 +2,6 @@
   <modal-card-base
     title="Test Modal"
     v-bind:title="$_title"
-    v-bind:data="$data.$_tempData"
     v-bind:actions="$_actions"
     v-bind="$attrs"
     v-on="$listeners"
@@ -135,7 +134,7 @@ export default defineComponent({
         {
           id: "ok",
           disabled: !this.$data.$_isFormValid,
-          callback: (data: Data) => { this.okCallback(cloneData(data)) },
+          callback: () => { this.okCallback(cloneData(this.$data.$_tempData)) },
         },
       ];
     },

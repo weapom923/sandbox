@@ -91,7 +91,6 @@ export default defineComponent({
     title: { type: String },
     text: { type: String },
     actions: { type: Array as PropType<CardAction[]> },
-    data: { type: Object as PropType<any> },
   },
 
   computed: {
@@ -102,7 +101,7 @@ export default defineComponent({
   methods: {
     $_getCallback(id: string, actionCallback?: (data?: any) => void): () => void {
       return () => {
-        if (actionCallback) actionCallback(this.data);
+        if (actionCallback) actionCallback();
         this.$emit(id);
       };
     },
