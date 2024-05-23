@@ -3,7 +3,7 @@
     class="cyclic-tree"
     v-bind:style="$_cyclicTreeStyle"
   >
-    <div class="branch">
+    <div class="edge">
       <hr v-if="level > 0">
       <cyclic-tree-value-card
         v-bind:width="cardWidth"
@@ -61,9 +61,10 @@
           </template>
         </cyclic-tree>
 
-        <div v-else class="branch">
+        <div v-else class="edge">
           <hr>
           <cyclic-tree-value-card
+            class="leaf"
             v-bind:width="cardWidth"
             v-bind:height="cardHeight"
           >
@@ -97,20 +98,20 @@ div.cyclic-tree {
   flex-direction: row;
 }
 
-div.branch {
+div.edge {
   display: flex;
   flex-direction: row;
   align-items: start;
 }
 
 div.cyclic-sub-tree-column,
-div.branch > hr {
+div.edge > hr {
   border-style: solid;
   border-color: black;
   border-width: 0;
 }
 
-div.branch > hr {
+div.edge > hr {
   min-width: 20px;
   border-top-width: 1px;
 }
@@ -120,8 +121,8 @@ div.cyclic-sub-tree-row {
   flex-direction: column;
 }
 
-div.cyclic-sub-tree-column {
-  padding-bottom: 10px;
+div.edge > .leaf {
+  margin-bottom: 20px;
 }
 
 div.cyclic-sub-tree-column:not(:last-child) {
