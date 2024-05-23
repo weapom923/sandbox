@@ -46,6 +46,15 @@ export type Data = {
   time: Date,
 };
 
+const cloneData = (data: Data): Data => {
+  return {
+    num: data.num,
+    str: data.str,
+    flag: data.flag,
+    time: new Date(data.time.getTime()),
+  };
+};
+
 export default defineComponent({
   setup(): {
     rules: {
@@ -94,6 +103,12 @@ export default defineComponent({
     };
   },
 
+  created() {
+    if (this.data) {
+      this.$data.$_tempData = cloneData(this.data);
+    }
+  },
+
   mounted() {
     this.$refs.form.validate();
   },
@@ -120,14 +135,7 @@ export default defineComponent({
         {
           id: "ok",
           disabled: !this.$data.$_isFormValid,
-          callback: () => {
-            this.okCallback({
-              num: this.$data.$_tempData.num,
-              str: this.$data.$_tempData.str,
-              flag: this.$data.$_tempData.flag,
-              time: new Date(this.$data.$_tempData.time.getTime()),
-            });
-          },
+          callback: (data: Data) => { this.okCallback(cloneData(data)) },
         },
       ];
     },
