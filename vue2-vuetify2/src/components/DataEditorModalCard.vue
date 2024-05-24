@@ -12,12 +12,14 @@
         type="number"
         v-model.number="$data.$_tempData.num"
         v-bind:rules="rules.num"
+        v-on:mousedown.stop
       >
       </v-text-field>
       <v-text-field
         label="str"
         v-model="$data.$_tempData.str"
         v-bind:rules="rules.str"
+        v-on:mousedown.stop
       >
       </v-text-field>
       <v-switch

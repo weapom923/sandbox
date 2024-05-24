@@ -23,8 +23,10 @@
       <component
         width="600"
         max-width="100%"
+        id="modal-card"
         v-bind:key="componentName"
         v-bind:is="componentName"
+        v-bind:class="$_modalClass"
         v-bind="$attrs"
         v-on:ok="$_closeModal"
         v-on:cancel="$_closeModal"
@@ -36,6 +38,17 @@
     </template>
   </v-menu>
 </template>
+
+<style scoped>
+#modal-card.draggable :deep(.v-card__title),
+#modal-card.draggable :deep(.v-card__actions) {
+  cursor: grab;
+}
+#modal-card.dragging :deep(.v-card__title),
+#modal-card.dragging :deep(.v-card__actions) {
+  cursor: grabbing;
+}
+</style>
 
 <script lang="ts">
 import { VMenu, VCard } from "vuetify/lib/components";
@@ -54,6 +67,7 @@ export default defineComponent({
   props: {
     componentName: { type: String, required: true },
     menuProps: { type: Object as PropType<InstanceType<VMenu>['$props']> },
+    draggable: { type: Boolean, default: false },
   },
 
   data(): {
@@ -101,6 +115,16 @@ export default defineComponent({
       if (this.$data.$_clientYOnMousedown === undefined) return 0;
       if (this.$data.$_clientYOnMousemove === undefined) return 0;
       return this.$data.$_clientYOnMousemove - this.$data.$_clientYOnMousedown;
+    },
+
+    $_modalClass(): string[] {
+      const modalClass: string[] = [];
+      if (this.$_isDragging) {
+        modalClass.push('dragging');
+      } else if (this.draggable) {
+        modalClass.push('draggable');
+      }
+      return modalClass
     },
   },
 
@@ -166,6 +190,7 @@ export default defineComponent({
     },
 
     $_onMousedown(event: MouseEvent) {
+      if (!this.draggable) return;
       this.$data.$_clientXOnMousedown = event.clientX;
       this.$data.$_clientYOnMousedown = event.clientY;
     },

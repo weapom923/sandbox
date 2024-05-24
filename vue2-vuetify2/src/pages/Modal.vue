@@ -97,6 +97,7 @@ export default defineComponent({
         simpleModalCard: { text: 'Simple Modal Card' },
         dataEditorModalCard: {
           okCallback: (data: Data) => { this.$data.$_data = data },
+          draggable: true,
           menuProps: {
             closeOnClick: false,
           },
