@@ -1,14 +1,22 @@
 <template>
-  <v-form class="d-flex flex-column">
+  <div class="d-flex flex-column">
     <h1>Options API</h1>
-    <v-btn v-on:click="$_val = 'XYZ'">update value</v-btn>
-    <v-btn v-on:click="$_arr = [ 'X', 'Y', 'Z' ]">update array</v-btn>
-    <v-btn v-on:click="$_obj = { a: 'X', b: 'Y', c: 'Z' }">update obj</v-btn>
-    <v-btn v-on:click="$_arr.push('new')">add new data to array</v-btn>
-    <v-btn v-on:click="$set($_obj, 'd', 'NEW')">assign new data to obj</v-btn>
+    <v-btn v-on:click="$_val = 'XYZ'">$_val = 'XYZ'</v-btn>
+    <v-btn v-on:click="$_arr = [ 'X', 'Y', 'Z' ]">$_arr = [ 'X', 'Y', 'Z' ]</v-btn>
+    <v-btn v-on:click="$_obj = { a: 'X', b: 'Y', c: 'Z' }">$_obj = { a: 'X', b: 'Y', c: 'Z' }</v-btn>
+    <v-btn v-on:click="arr.push('new')">arr.push('new')</v-btn>
+    <v-btn v-on:click="$_arr.push('new')">$_arr.push('new')</v-btn>
+    <v-btn v-on:click="$set(obj, 'd', 'NEW')">$set(obj, 'd', 'NEW')</v-btn>
+    <v-btn v-on:click="$set($_obj, 'd', 'NEW')">$set($_obj, 'd', 'NEW')</v-btn>
     <v-text-field v-model="$_val"></v-text-field>
-  </v-form>
+  </div>
 </template>
+
+<style scoped>
+:deep(.v-btn) {
+  text-transform: unset !important;
+}
+</style>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
