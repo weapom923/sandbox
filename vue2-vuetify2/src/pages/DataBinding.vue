@@ -2,6 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
+        <v-btn v-on:click="$_reset">reset</v-btn>
         <v-simple-table>
           <thead>
             <tr>
@@ -58,10 +59,22 @@ export default defineComponent({
     $_obj: Record<string, string>,
   } {
     return {
-      $_val: "abc",
-      $_arr: [ "a", "b", "c" ],
-      $_obj: { a: "A", b: "B", c: "C" },
+      $_val: undefined,
+      $_arr: undefined,
+      $_obj: undefined,
     };
+  },
+
+  created() {
+    this.$_reset();
+  },
+
+  methods: {
+    $_reset() {
+      this.$data.$_val = "abc";
+      this.$data.$_arr = [ "a", "b", "c" ];
+      this.$data.$_obj = { a: "A", b: "B", c: "C" };
+    },
   },
 });
 </script>

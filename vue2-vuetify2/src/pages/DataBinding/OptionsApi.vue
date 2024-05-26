@@ -1,9 +1,11 @@
 <template>
-  <v-form>
+  <v-form class="d-flex flex-column">
     <h1>Options API</h1>
     <v-btn v-on:click="$_val = 'XYZ'">update value</v-btn>
     <v-btn v-on:click="$_arr = [ 'X', 'Y', 'Z' ]">update array</v-btn>
     <v-btn v-on:click="$_obj = { a: 'X', b: 'Y', c: 'Z' }">update obj</v-btn>
+    <v-btn v-on:click="$_arr.push('new')">add new data to array</v-btn>
+    <v-btn v-on:click="$set($_obj, 'd', 'NEW')">assign new data to obj</v-btn>
     <v-text-field v-model="$_val"></v-text-field>
   </v-form>
 </template>
