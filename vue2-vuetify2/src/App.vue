@@ -34,6 +34,7 @@ export default defineComponent({
         '/cyclic-tree',
         '/class-component-basic',
         '/modal',
+        '/bad-data-binding',
       ],
     };
   },
