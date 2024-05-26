@@ -35,6 +35,7 @@ export default defineComponent({
         '/class-component-basic',
         '/modal',
         '/bad-data-binding',
+        '/life-cycle-hooks',
       ],
     };
   },
