@@ -47,6 +47,14 @@ const router = new VueRouter({
           path: 'modal',
           component: () => import('@/pages/Modal.vue'),
         },
+        {
+          path: 'bad-data-binding',
+          component: () => import('@/pages/BadDataBinding.vue'),
+        },
+        {
+          path: 'life-cycle-hooks',
+          component: () => import('@/pages/LifeCycleHooks.vue'),
+        },
       ]
     },
   ],
