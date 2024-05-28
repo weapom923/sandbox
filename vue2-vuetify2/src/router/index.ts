@@ -55,6 +55,10 @@ const router = new VueRouter({
           path: 'life-cycle-hooks',
           component: () => import('@/pages/LifeCycleHooks.vue'),
         },
+        {
+          path: 'v-list-test',
+          component: () => import('@/pages/VListTest.vue'),
+        },
       ]
     },
   ],

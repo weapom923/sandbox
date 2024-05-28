@@ -36,6 +36,7 @@ export default defineComponent({
         '/modal',
         '/bad-data-binding',
         '/life-cycle-hooks',
+        '/v-list-test',
       ],
     };
   },
