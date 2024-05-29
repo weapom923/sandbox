@@ -2,9 +2,9 @@
   <v-container>
     <cyclic-tree
       v-for="(_data, _label) in data"
-      :label="_label"
-      :data="_data"
-      :key="`${_label}-custom-slot`"
+      v-bind:label="_label"
+      v-bind:data="_data"
+      v-bind:key="`${_label}-custom-slot`"
     >
       <template #label="{ label }">{{ idToLabel[label] }}</template>
       <template #count="{ count }">{{ count }}人</template>
@@ -12,9 +12,9 @@
 
     <cyclic-tree
       v-for="(_data, _label) in data"
-      :label="_label"
-      :data="_data"
-      :key="_label"
+      v-bind:label="_label"
+      v-bind:data="_data"
+      v-bind:key="_label"
     >
     </cyclic-tree>
   </v-container>

@@ -3,7 +3,7 @@
     <sub-class-component
       title="Title from props"
       v-model="$data.$_modelValue"
-      v-bind:propValue.sync="$data.$_propValue"
+      v-bind:prop-value.sync="$data.$_propValue"
     >
     </sub-class-component>
     <div>modelValue: {{ $data.$_modelValue }}</div>

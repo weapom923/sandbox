@@ -14,15 +14,15 @@
     <v-col cols="3">Object Missing: {{ $data.$_objMissing1 }}</v-col>
     <v-col cols="12">
       <bad-data-binding-sub-component
-          v-bind:val-reactive1.sync="$data.$_valReactive1"
-          v-bind:val-missing1.sync="$data.$_valMissing1"
-          v-bind:arr-reactive1.sync="$data.$_arrReactive1"
-          v-bind:arr-reactive2.sync="$data.$_arrReactive2"
-          v-bind:arr-missing1.sync="$data.$_arrNonreactive1"
-          v-bind:obj-reactive1.sync="$data.$_objReactive1"
-          v-bind:obj-reactive2.sync="$data.$_objReactive2"
-          v-bind:obj-nonreactive1.sync="$data.$_objNonreactive1"
-          v-bind:obj-missing1.sync="$data.$_objMissing1"
+        v-bind:val-reactive1.sync="$data.$_valReactive1"
+        v-bind:val-missing1.sync="$data.$_valMissing1"
+        v-bind:arr-reactive1.sync="$data.$_arrReactive1"
+        v-bind:arr-reactive2.sync="$data.$_arrReactive2"
+        v-bind:arr-missing1.sync="$data.$_arrNonreactive1"
+        v-bind:obj-reactive1.sync="$data.$_objReactive1"
+        v-bind:obj-reactive2.sync="$data.$_objReactive2"
+        v-bind:obj-nonreactive1.sync="$data.$_objNonreactive1"
+        v-bind:obj-missing1.sync="$data.$_objMissing1"
       >
       </bad-data-binding-sub-component>
     </v-col>
